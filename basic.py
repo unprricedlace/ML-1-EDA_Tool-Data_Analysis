@@ -197,7 +197,8 @@ if uploaded_file is not None:
     if categorical_columns:
         # Perform one-hot encoding for categorical variables
         df = pd.get_dummies(df, columns=categorical_columns).astype(int)
-
+    
+    st.subheader("Data with Categorical Values Handeled")
     st.write(df)
 
     all_columns = df.columns.tolist()
@@ -274,8 +275,11 @@ if uploaded_file is not None:
     correlation_matrix1 = df.corr()
     correlation_matrix2 = df.corr(method="spearman")
     correlation_matrix3 = df.corr(method="kendall")
+    st.subheader("Pearson Correllation Matrix")
     st.write(correlation_matrix1)
+    st.subheader("Spearman Correllation Matrix")
     st.write(correlation_matrix2)
+    st.subheader("Kendall Correllation Matrix")
     st.write(correlation_matrix3)
     plt.figure(figsize=(8, 6))
     sns.heatmap(correlation_matrix1, annot=True, cmap="coolwarm", vmin=-1, vmax=1)
@@ -289,3 +293,16 @@ if uploaded_file is not None:
     sns.heatmap(correlation_matrix3, annot=True, cmap="plasma", vmin=-1, vmax=1)
     plt.title("kendall Correlation Matrix Heatmap")
     st.pyplot(plt)
+    st.subheader("Download Visualizations")
+    for i, viz in enumerate(visualizations):
+        if st.button(f"Download {viz}"):
+            # Generate the visualization and save it as an image
+            img = create_visualization(df, viz)
+            download
+    st.subheader("Download the Dataset")
+    st.download_button(
+        label="Download CSV File",
+        data=df.to_csv().encode('utf-8'),  # Convert DataFrame to CSV and encode as bytes
+        key="download_csv",
+        file_name="downloaded_file.csv",  # Specify the filename
+    )
