@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import openpyxl
 
 
 # Title
@@ -122,10 +123,10 @@ def create_3d_line_plot(data_frame, x_column, y_column, z_column):
 
 
 # Upload a CSV file
-uploaded_file = st.file_uploader("Upload a file", type=["csv", "xslx"])
+uploaded_file = st.file_uploader("Upload a file", type=["csv", "xlsx"])
 
 if uploaded_file is not None:
-    file_ext = uploaded_file.name.split(".")[-1]
+    file_ext = uploaded_file.name.split(".")[-1].lower()
     # Read the file into a DataFrame
     # df = pd.read_csv(uploaded_file)
     df = (
@@ -172,6 +173,7 @@ if uploaded_file is not None:
                     "Replace_custom",
                     "No Replacement",
                 ],
+                key=f"replacement_method_selectbox_{column}",
             )
             if replacement_method == "Maximum Value":
                 max_val = df[column].max()
@@ -197,7 +199,7 @@ if uploaded_file is not None:
     if categorical_columns:
         # Perform one-hot encoding for categorical variables
         df = pd.get_dummies(df, columns=categorical_columns).astype(int)
-    
+
     st.subheader("Data with Categorical Values Handeled")
     st.write(df)
 
@@ -243,33 +245,84 @@ if uploaded_file is not None:
             col_names = st.multiselect("Select a columns for the Histogram", df.columns)
             create_histogram(df, col_names)
         elif viz == "Box Plot":
-            col_name = st.selectbox("Select a column for the Box Plot", df.columns)
-            st.pyplot(create_box_plot(df, col_name))
+            col_name = st.selectbox(
+                "Select a column for the Box Plot", df.columns, key="uniquekey_box_plot"
+            )
+            st.pyplot(create_box_plot(df, col_name), key="uniquekey_box_plot")
         elif viz == "Bar Chart":
-            x_col = st.selectbox("Select a column for the X-axis", df.columns)
-            y_col = st.selectbox("Select a column for the Y-axis", df.columns)
-            st.pyplot(create_bar_chart(df, x_col, y_col))
+            x_col = st.selectbox(
+                "Select a column for the X-axis", df.columns, key="uniquekey_x_barchart"
+            )
+            y_col = st.selectbox(
+                "Select a column for the Y-axis", df.columns, key="uniquekey_y_barchart"
+            )
+            st.pyplot(create_bar_chart(df, x_col, y_col), key="uniquekey_barchart")
         elif viz == "Scatter Plot":
-            x_col = st.selectbox("Select a column for the X-axis", df.columns)
-            y_col = st.selectbox("Select a column for the Y-axis", df.columns)
-            st.pyplot(create_scatter_plot(df, x_col, y_col))
+            x_col = st.selectbox(
+                "Select a column for the X-axis",
+                df.columns,
+                key="uniquekey_x_scatterplot",
+            )
+            y_col = st.selectbox(
+                "Select a column for the Y-axis",
+                df.columns,
+                key="uniquekey_y_scatterplot",
+            )
+            st.pyplot(
+                create_scatter_plot(df, x_col, y_col), key="uniquekey_scatterplot"
+            )
         elif viz == "Line Chart":
-            x_col = st.selectbox("Select a column for the X-axis", df.columns)
-            y_col = st.selectbox("Select a column for the Y-axis", df.columns)
-            st.pyplot(create_line_chart(df, x_col, y_col))
+            x_col = st.selectbox(
+                "Select a column for the X-axis",
+                df.columns,
+                key="uniquekey_x_linechart",
+            )
+            y_col = st.selectbox(
+                "Select a column for the Y-axis",
+                df.columns,
+                key="uniquekey_y_linechart",
+            )
+            st.pyplot(create_line_chart(df, x_col, y_col), key="uniquekey_linechart")
         elif viz == "Pie Chart":
-            col_name = st.selectbox("Select a column for the Pie Chart", df.columns)
-            st.pyplot(create_pie_chart(df, col_name))
+            col_name = st.selectbox(
+                "Select a column for the Pie Chart",
+                df.columns,
+                key="uniquekey_piechart",
+            )
+            st.pyplot(create_pie_chart(df, col_name), key="uniquekey_piechart")
         elif viz == "3D Scatter Plot":
-            x_col = st.selectbox("Select a column for the X-axis", df.columns)
-            y_col = st.selectbox("Select a column for the Y-axis", df.columns)
-            z_col = st.selectbox("Select a column for the Z-axis", df.columns)
-            st.pyplot(create_3d_scatter_plot(df, x_col, y_col, z_col))
+            x_col = st.selectbox(
+                "Select a column for the X-axis",
+                df.columns,
+                key="uniquekey_x_3D_scatter",
+            )
+            y_col = st.selectbox(
+                "Select a column for the Y-axis",
+                df.columns,
+                key="uniquekey_y_3D_scatter",
+            )
+            z_col = st.selectbox(
+                "Select a column for the Z-axis",
+                df.columns,
+                key="uniquekey_z_3D_scatter",
+            )
+            st.pyplot(
+                create_3d_scatter_plot(df, x_col, y_col, z_col),
+                key="uniquekey_3d_scatter",
+            )
         elif viz == "3D Line Plot":
-            x_col = st.selectbox("Select a column for the X-axis", df.columns)
-            y_col = st.selectbox("Select a column for the Y-axis", df.columns)
-            z_col = st.selectbox("Select a column for the Z-axis", df.columns)
-            st.pyplot(create_3d_line_plot(df, x_col, y_col, z_col))
+            x_col = st.selectbox(
+                "Select a column for the X-axis", df.columns, key="uniquekey_x_3D_line"
+            )
+            y_col = st.selectbox(
+                "Select a column for the Y-axis", df.columns, key="uniquekey_y_3D_line"
+            )
+            z_col = st.selectbox(
+                "Select a column for the Z-axis", df.columns, key="uniquekey_z_3D_line"
+            )
+            st.pyplot(
+                create_3d_line_plot(df, x_col, y_col, z_col), key="uniquekey_3d_line"
+            )
 
     # corellation Matrices
     correlation_matrix1 = df.corr()
@@ -302,7 +355,9 @@ if uploaded_file is not None:
     st.subheader("Download the Dataset")
     st.download_button(
         label="Download CSV File",
-        data=df.to_csv().encode('utf-8'),  # Convert DataFrame to CSV and encode as bytes
+        data=df.to_csv().encode(
+            "utf-8"
+        ),  # Convert DataFrame to CSV and encode as bytes
         key="download_csv",
         file_name="downloaded_file.csv",  # Specify the filename
     )
