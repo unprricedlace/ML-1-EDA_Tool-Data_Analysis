@@ -14,20 +14,13 @@ Welcome to the Data Visualizer project! This interactive tool allows you to uplo
 
 ## Getting Started
 
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/your-username/data-visualizer.git
-    cd data-visualizer
-    ```
-
-2. Install the required dependencies:
+1. Install the required dependencies:
 
     ```bash
     pip install streamlit pandas numpy matplotlib seaborn
     ```
 
-3. Upload your data file and explore the features!
+2. Upload your data file and explore the features!
 
 ## Usage
 
