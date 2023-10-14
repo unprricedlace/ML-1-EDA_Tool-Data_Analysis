@@ -224,7 +224,7 @@ if uploaded_file is not None:
         df.drop_duplicates(inplace=True, keep="first")
 
     # other visualisationas
-    st.subheader("Visualisatons")
+    st.subheader("Visualisations")
     visualizations = st.multiselect(
         "Select Visualizations",
         [
@@ -248,7 +248,7 @@ if uploaded_file is not None:
             col_name = st.selectbox(
                 "Select a column for the Box Plot", df.columns, key="uniquekey_box_plot"
             )
-            st.pyplot(create_box_plot(df, col_name), key="uniquekey_box_plot")
+            st.pyplot(create_box_plot(df, col_name))
         elif viz == "Bar Chart":
             x_col = st.selectbox(
                 "Select a column for the X-axis", df.columns, key="uniquekey_x_barchart"
@@ -256,7 +256,7 @@ if uploaded_file is not None:
             y_col = st.selectbox(
                 "Select a column for the Y-axis", df.columns, key="uniquekey_y_barchart"
             )
-            st.pyplot(create_bar_chart(df, x_col, y_col), key="uniquekey_barchart")
+            st.pyplot(create_bar_chart(df, x_col, y_col))
         elif viz == "Scatter Plot":
             x_col = st.selectbox(
                 "Select a column for the X-axis",
@@ -268,9 +268,7 @@ if uploaded_file is not None:
                 df.columns,
                 key="uniquekey_y_scatterplot",
             )
-            st.pyplot(
-                create_scatter_plot(df, x_col, y_col), key="uniquekey_scatterplot"
-            )
+            st.pyplot(create_scatter_plot(df, x_col, y_col))
         elif viz == "Line Chart":
             x_col = st.selectbox(
                 "Select a column for the X-axis",
@@ -282,14 +280,14 @@ if uploaded_file is not None:
                 df.columns,
                 key="uniquekey_y_linechart",
             )
-            st.pyplot(create_line_chart(df, x_col, y_col), key="uniquekey_linechart")
+            st.pyplot(create_line_chart(df, x_col, y_col))
         elif viz == "Pie Chart":
             col_name = st.selectbox(
                 "Select a column for the Pie Chart",
                 df.columns,
                 key="uniquekey_piechart",
             )
-            st.pyplot(create_pie_chart(df, col_name), key="uniquekey_piechart")
+            st.pyplot(create_pie_chart(df, col_name))
         elif viz == "3D Scatter Plot":
             x_col = st.selectbox(
                 "Select a column for the X-axis",
@@ -306,10 +304,7 @@ if uploaded_file is not None:
                 df.columns,
                 key="uniquekey_z_3D_scatter",
             )
-            st.pyplot(
-                create_3d_scatter_plot(df, x_col, y_col, z_col),
-                key="uniquekey_3d_scatter",
-            )
+            st.pyplot(create_3d_scatter_plot(df, x_col, y_col, z_col))
         elif viz == "3D Line Plot":
             x_col = st.selectbox(
                 "Select a column for the X-axis", df.columns, key="uniquekey_x_3D_line"
@@ -320,9 +315,7 @@ if uploaded_file is not None:
             z_col = st.selectbox(
                 "Select a column for the Z-axis", df.columns, key="uniquekey_z_3D_line"
             )
-            st.pyplot(
-                create_3d_line_plot(df, x_col, y_col, z_col), key="uniquekey_3d_line"
-            )
+            st.pyplot(create_3d_line_plot(df, x_col, y_col, z_col))
 
     # corellation Matrices
     correlation_matrix1 = df.corr()
